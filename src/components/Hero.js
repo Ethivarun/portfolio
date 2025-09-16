@@ -33,7 +33,7 @@ function App() {
             About
           </Link>
           <Link to="skills" smooth={true} duration={600} spy={true} activeClass="active-link" >
-            skills
+            Projects
           </Link>
           <Link to="contact" smooth={true} duration={600} spy={true} activeClass="active-link">
             Contact
