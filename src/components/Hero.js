@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     const typed = new Typed(typedElement.current, {
-      strings: ["Designer", "Developer"],
+      strings: [ "Full Stack Developer","API Developer","Software Engineer"], //Developer | Designer | Engineer | Creator
       typeSpeed: 80,
       backSpeed: 50,
       loop: true,
@@ -50,9 +50,7 @@ function App() {
             I'm <span ref={typedElement}></span>
           </h1>
           <p>
-            A passionate Full Stack Developer with a deep understanding of
-            front-end technologies, dedicated to creating functional and elegant
-            digital solutions.
+           I’m a Passionate Full Stack Developer with expertise in modern web technologies. I create beautiful, functional, and scalable digital solutions that deliver real value. With a problem-solving mindset.
           </p>
           <div className="hero-buttons">
             <button className="hire-btn">Hire Me</button>
