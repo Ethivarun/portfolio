@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
-import axios from "axios";
+
 
 function Contact() {
   const [formData, setFormData] = useState({
