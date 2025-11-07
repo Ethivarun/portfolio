@@ -1,0 +1,203 @@
+/* Floating chat icon */
+.chat-icon {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  background: #2563eb;
+  color: white;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s infinite;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.chat-icon:hover {
+  background: #1d4ed8;
+  transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+  70% { box-shadow: 0 0 0 20px rgba(37, 99, 235, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* Popup window */
+.chat-popup {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  width: 320px;
+  height: 420px;
+  background: #111827;
+  color: #f3f4f6;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  animation: popupFade 0.3s ease;
+}
+
+@keyframes popupFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+  background: #2563eb;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background: #1f2937;
+}
+
+.msg {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  line-height: 1.4;
+  max-width: 85%;
+}
+
+.msg.user {
+  background: #2563eb;
+  color: white;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.msg.bot {
+  background: #374151;
+  color: #f3f4f6;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #374151;
+  background: #111827;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  color: #f3f4f6;
+  border: none;
+  outline: none;
+}
+
+.chat-input button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background: #1d4ed8;
+}
+
+
+/* ============================= */
+/* 📱 MOBILE VIEW (up to 768px)  */
+/* ============================= */
+@media (max-width: 768px) {
+  /* Floating Chat Icon */
+  .chat-icon {
+    bottom: 15px;
+    right: 15px;
+    width: 55px;
+    height: 55px;
+    font-size: 22px; /* make icon slightly smaller */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s infinite;
+  }
+
+  .chat-icon:hover {
+    transform: scale(1.05); /* smaller hover scale for mobile */
+  }
+
+  /* Popup Window */
+  .chat-popup {
+    bottom: 80px;
+    right: 10px;
+    width: 90vw;         /* full width on mobile screens */
+    height: 65vh;        /* smaller height for compact fit */
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Popup Header */
+  .chat-header {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  /* Chat Body */
+  .chat-body {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  /* Messages */
+  .msg {
+    font-size: 14px;
+    padding: 7px 10px;
+    max-width: 80%;
+  }
+
+  /* Input area */
+  .chat-input input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .chat-input button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+/* ============================================= */
+/* 📲 SMALLER DEVICES (phones under 400px width) */
+/* ============================================= */
+@media (max-width: 400px) {
+  .chat-popup {
+    bottom: 70px;
+    right: 5px;
+    width: 95vw;
+    height: 60vh;
+  }
+
+  .chat-icon {
+    bottom: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .chat-header {
+    font-size: 15px;
+  }
+
+  .msg {
+    font-size: 13px;
+  }
+}

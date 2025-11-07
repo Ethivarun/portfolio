@@ -41,11 +41,12 @@ function About() {
 
         {/* Certifications Box */}
         <div className="about-box">
-          <h3>Certifications</h3>
+          <h3>Learning & Achievements</h3>
           <ul>
-            <li>React.js</li>
-            <li>Python Development</li>
-            {/* <li>MongoDB (optional)</li> */}
+            <li>Completed multiple React and Full Stack projects as self-learning practice.</li>
+            <li>Actively building custom Form.io components and workflow automation tools.</li>
+            <li>Documented projects and APIs using Docusaurus and GitHub Pages.</li>
+            <li>Continuously improving backend and authentication skills with Keycloak and REST APIs.</li>
           </ul>
         </div>
 
