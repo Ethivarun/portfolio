@@ -8,7 +8,7 @@ function Projects() {
         "Implemented single sign-on and token validation across multiple micro frontends using Keycloak.",
       tech: "Keycloak, React, Node.js, REST APIs",
       link: "#"
-    }, 
+    },
     {
       title: "Activepieces Workflow Automation",
       description:
@@ -19,7 +19,7 @@ function Projects() {
     {
       title: "Documentation Portal with Docusaurus",
       description:
-        "Created a professional developer documentation site for the app using Docusaurus. It includes setup guides, API references, and architecture overviews for easy onboarding.",
+        "Created a professional developer documentation site for the app using Docusaurus.",
       tech: "Docusaurus, React, Markdown, GitHub Pages",
       link: "#"
     },
@@ -33,15 +33,14 @@ function Projects() {
     {
       title: "Responsive Portfolio Website",
       description:
-        "My personal portfolio built with React, showcasing my learning journey and design skills.",
+        "Personal portfolio built with React, focused on clean UI and responsiveness.",
       tech: "React, HTML, CSS, JavaScript",
       link: "#"
     },
-  
     {
       title: "Clinic Dashboard (Work in Progress)",
       description:
-        "A multi-tab React dashboard with calendar, doctor management, and support modules.",
+        "Multi-tab React dashboard with calendar, doctor management, and support modules.",
       tech: "React, Bootstrap, React Calendar",
       link: "#"
     }
@@ -49,15 +48,22 @@ function Projects() {
 
   return (
     <section id="projects" className="projects">
-      <h2>Projects</h2>
+      <h2 className="section-title">Projects</h2>
+
       <div className="project-grid">
         {projectList.map((proj, index) => (
           <div key={index} className="project-card">
-            <h3>{proj.title}</h3>
-            <p>{proj.description}</p>
-            <span className="tech">{proj.tech}</span>
+            <h3 className="project-title">{proj.title}</h3>
+            <p className="project-desc">{proj.description}</p>
+            <span className="project-tech">{proj.tech}</span>
+
             {proj.link !== "#" && (
-              <a href={proj.link} target="_blank" rel="noreferrer">
+              <a
+                href={proj.link}
+                target="_blank"
+                rel="noreferrer"
+                className="project-link"
+              >
                 View Code
               </a>
             )}

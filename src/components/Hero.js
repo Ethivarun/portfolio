@@ -6,6 +6,17 @@ import { FaBars, FaTimes } from "react-icons/fa"; // <-- for hamburger and close
 function App() {
   const typedElement = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false); // state to toggle mobile menu
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 100) setScrolled(true);
+    else setScrolled(false);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   useEffect(() => {
     const typed = new Typed(typedElement.current, {
@@ -26,7 +37,7 @@ function App() {
   return (
     <div className="App">
       {/* Header */}
-      <header className="header">
+      <header className={`header ${scrolled ? "header-scrolled" : ""}`}>
         <div className="logo">Varun</div>
 
         {/* Desktop Menu */}

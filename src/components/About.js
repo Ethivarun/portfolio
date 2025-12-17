@@ -4,52 +4,52 @@ function About() {
   return (
     <section id="about" className="about-section">
       <h2 className="section-title">About Me</h2>
+
       <div className="about-container">
-        {/* Story Box */}
+        {/* Profile */}
         <div className="about-box">
-          <h3>My Story</h3>
+          <h3>Profile</h3>
           <p>
-            I’m a <strong>passionate Full Stack Developer</strong> with hands-on
-            experience in building modern web applications. My journey began
-            during college, where I discovered the power of programming to solve
-            real-world problems.
+            I am a <strong>Full Stack Developer</strong> with hands-on experience
+            building modern, scalable web applications. I enjoy solving
+            real-world problems through clean, maintainable code and thoughtful
+            system design.
           </p>
           <p>
-            I have professional experience through a{" "}
-            <strong>3-month internship</strong>, which later converted into a{" "}
-            <strong>full-time role</strong>, giving me over{" "}
-            <strong>6 months of industry experience</strong>. During this time, I
-            worked with <strong>React.js</strong> and <strong>Python</strong>,
-            focusing on creating applications that are both{" "}
-            <em>functional and user-friendly</em>.
+            My professional journey includes a <strong>3-month internship</strong>{" "}
+            that transitioned into a <strong>full-time role</strong>, giving me
+            practical exposure to production systems and collaborative
+            development environments.
           </p>
         </div>
 
-        {/* Skills & Beliefs Box */}
+        {/* Experience */}
         <div className="about-box">
-          <h3>What I Do</h3>
+          <h3>Experience & Focus</h3>
           <p>
-            I believe in writing <strong>clean, maintainable code</strong> and
-            constantly improving my skills by exploring new technologies and
-            frameworks.
+            I primarily work with <strong>React</strong> on the frontend and
+            backend technologies such as <strong>Node.js</strong>,{" "}
+            <strong>REST APIs</strong>, and authentication systems like{" "}
+            <strong>Keycloak</strong>.
           </p>
           <p>
-            When I’m not coding, I enjoy learning new tools, experimenting with
-            side projects, and expanding my technical expertise.
+            I focus on building applications that are{" "}
+            <em>reliable, user-friendly, and easy to maintain</em>.
           </p>
         </div>
 
-        {/* Certifications Box */}
+        {/* Learning */}
         <div className="about-box">
-          <h3>Learning & Achievements</h3>
+          <h3>Learning & Growth</h3>
           <ul>
-            <li>Completed multiple React and Full Stack projects as self-learning practice.</li>
-            <li>Actively building custom Form.io components and workflow automation tools.</li>
-            <li>Documented projects and APIs using Docusaurus and GitHub Pages.</li>
-            <li>Continuously improving backend and authentication skills with Keycloak and REST APIs.</li>
+            <li>Built multiple full-stack projects using React and backend APIs.</li>
+            <li>Developed custom Form.io components and workflow automations.</li>
+            <li>Maintained technical documentation using Docusaurus.</li>
+            <li>Continuously improving authentication and backend architecture skills.</li>
           </ul>
         </div>
 
+        {/* Education */}
         <div className="about-box">
           <h3>Education</h3>
           <ul>
@@ -57,7 +57,7 @@ function About() {
               <strong>
                 Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology
               </strong>
-              <p>Bachelor of Technology in Electronics and Communication Engineering</p>
+              <p>B.Tech — Electronics & Communication Engineering</p>
               <p><strong>CGPA:</strong> 9.0</p>
             </li>
           </ul>

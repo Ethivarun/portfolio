@@ -201,3 +201,28 @@
     font-size: 13px;
   }
 }
+
+.mic-btn {
+  background: rgba(0,0,0,0.1);
+  border: none;
+  padding: 8px 10px;
+  margin-left: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 18px;
+}
+
+.mic-btn:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.chat-icon {
+  animation: floatIcon 2s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+  100% { transform: translateY(0); }
+}
