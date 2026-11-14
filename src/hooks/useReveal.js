@@ -12,14 +12,14 @@ export default function useReveal() {
     const els = document.querySelectorAll("[data-reveal]");
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduce || !("IntersectionObserver" in window)) {
-      els.forEach((el) => el.classList.add("is-visible"));
+      els.forEach((el) => (el.dataset.inview = "in"));
       return;
     }
     const io = new IntersectionObserver(
       (entries) =>
         entries.forEach(({ target, isIntersecting, boundingClientRect }) => {
-          target.classList.toggle("is-visible", isIntersecting);
-          target.classList.toggle("is-above", !isIntersecting && boundingClientRect.top < 0);
+          // a data attribute (not a class) so React re-renders never wipe it
+          target.dataset.inview = isIntersecting ? "in" : boundingClientRect.top < 0 ? "above" : "below";
         }),
       { threshold: 0.15, rootMargin: "0px 0px -6% 0px" }
     );

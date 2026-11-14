@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { FiMenu, FiX, FiSun, FiMoon, FiDownload } from "react-icons/fi";
+import { FiMenu, FiX, FiDownload } from "react-icons/fi";
 import { profile } from "../data/profile";
 
-const LINKS = [
+export const NAV_LINKS = [
   { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
+  { id: "story", label: "My story" },
+  { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
   { id: "contact", label: "Contact" },
 ];
 
-function getInitialTheme() {
-  try {
-    const saved = localStorage.getItem("theme");
-    if (saved) return saved;
-  } catch (e) {}
-  return window.matchMedia?.("(prefers-color-scheme: light)").matches ? "light" : "dark";
+/** "Local time 2:00pm · 15 November, 2026" in the owner's timezone. */
+function LocalTime() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 20000);
+    return () => clearInterval(t);
+  }, []);
+  const tz = profile.timezone;
+  const time = now
+    .toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: tz })
+    .replace(" ", "")
+    .toLowerCase();
+  const date = now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: tz });
+  return (
+    <span className="nav__time" title={tz}>
+      <span className="muted">Local time</span> <strong>{time}</strong>
+      <span className="nav__time-sep" /> {date.replace(/ (\d{4})$/, ", $1")}
+    </span>
+  );
 }
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
-  const [theme, setTheme] = useState(getInitialTheme);
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem("theme", theme);
-    } catch (e) {}
-  }, [theme]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -40,12 +46,11 @@ function Navbar() {
 
   // Highlight the nav link of the section currently in view
   useEffect(() => {
-    const sections = ["home", ...LINKS.map((l) => l.id)]
+    const sections = ["home", ...NAV_LINKS.map((l) => l.id)]
       .map((id) => document.getElementById(id))
       .filter(Boolean);
     const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
       { rootMargin: "-45% 0px -50% 0px" }
     );
     sections.forEach((s) => io.observe(s));
@@ -65,7 +70,7 @@ function Navbar() {
         </a>
 
         <nav className={`nav__links ${open ? "is-open" : ""}`} aria-label="Primary">
-          {LINKS.map((l) => (
+          {NAV_LINKS.map((l) => (
             <a
               key={l.id}
               href={`#${l.id}`}
@@ -81,13 +86,7 @@ function Navbar() {
         </nav>
 
         <div className="nav__actions">
-          <button
-            className="icon-btn"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-            onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-          >
-            {theme === "dark" ? <FiSun /> : <FiMoon />}
-          </button>
+          <LocalTime />
           <a href={profile.resume} target="_blank" rel="noreferrer" className="btn btn--ghost btn--sm nav__resume">
             <FiDownload /> Resume
           </a>

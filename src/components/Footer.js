@@ -12,15 +12,9 @@ import {
   FiCheck,
 } from "react-icons/fi";
 import { profile } from "../data/profile";
+import { NAV_LINKS } from "./Navbar";
 
-const NAV = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
-  { id: "skills", label: "Skills" },
-  { id: "projects", label: "Projects" },
-  { id: "contact", label: "Contact" },
-];
+const NAV = [{ id: "home", label: "Home" }, ...NAV_LINKS];
 
 function Footer() {
   const [showTop, setShowTop] = useState(false);

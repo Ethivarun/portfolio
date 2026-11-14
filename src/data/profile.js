@@ -4,7 +4,10 @@
 export const profile = {
   name: "Madaka Ethivarun",
   shortName: "Varun",
-  roles: ["Full Stack Developer", "Frontend Engineer", "Low-Code & Automation Developer"],
+  // Flip-calendar in the hero cycles through these (keep them short)
+  roles: ["Full Stack Developer", "Frontend Engineer", "API Developer", "Automation Builder"],
+  timezone: "Asia/Kolkata", // shown as "Local time" in the navbar
+  workMode: "Remote · Hybrid — India",
   tagline:
     "I build clean, reliable web applications — from React interfaces to APIs, authentication and workflow automation.",
   location: "India",
@@ -65,6 +68,99 @@ export const profile = {
   },
 
   certifications: ["Atlassian Jira Fundamentals", "Python Programming"],
+
+  // "My story" — newest first (scrolling goes back in time).
+  // TODO: confirm the years/months below.
+  story: [
+    {
+      year: "2026",
+      period: "Jan 2026 — Present",
+      title: "Full Stack Developer — Business Apps",
+      org: "Stride Future Technology",
+      points: [
+        "Shipped complete E-Commerce, LMS, CRM and HRMS applications end to end.",
+        "Own features from database and APIs to React UI and deployment.",
+      ],
+    },
+    {
+      year: "2025",
+      period: "2025",
+      title: "Associate Software Trainee",
+      org: "Stride Future Technology",
+      points: [
+        "Implemented Keycloak SSO across multiple micro-frontends.",
+        "Built custom Form.io components and Activepieces automations (OTP, forms, storage).",
+        "Improved AI chatbot responses and ran feature testing before releases.",
+      ],
+    },
+    {
+      year: "2024",
+      period: "3-month internship · 2024",
+      title: "Software Intern",
+      org: "Stride Future Technology",
+      points: [
+        "Developed Form.io components and documented the platform in Docusaurus.",
+        "Converted the internship into a full-time role.",
+      ],
+    },
+    {
+      year: "2024",
+      period: "Graduation · 2024",
+      title: "B.Tech — Electronics & Communication",
+      org: "Vel Tech Rangarajan Dr. Sagunthala R&D Institute",
+      points: [
+        "Graduated with a CGPA of 8.2.",
+        "Built a Bluetooth-controlled river-cleaning boat prototype.",
+      ],
+    },
+    {
+      year: "2020",
+      period: "Where it started · 2020",
+      title: "Started engineering",
+      org: "Vel Tech, Chennai",
+      points: [
+        "Wrote my first programs in Python and fell in love with building things.",
+        "Earned Python and Atlassian Jira certifications along the way.",
+      ],
+    },
+  ],
+
+  // "Magic happens behind the doors" — each door opens a different way:
+  // open: "swing-left" | "swing-right" | "double" | "slide-up"
+  services: [
+    {
+      title: "Web Development",
+      plate: "WEB DEV",
+      subtitle: "From idea to production",
+      points: ["Responsive React interfaces", "Reusable component systems", "Fast, accessible UI"],
+      color: "#2c4a86",
+      open: "swing-left",
+    },
+    {
+      title: "Business Apps",
+      plate: "BUSINESS APPS",
+      subtitle: "E-com · LMS · CRM · HRMS",
+      points: ["Dashboards & admin panels", "Role-based access", "End-to-end delivery"],
+      color: "#4b3f73",
+      open: "swing-right",
+    },
+    {
+      title: "Automation",
+      plate: "AUTOMATION",
+      subtitle: "Workflows that run themselves",
+      points: ["Activepieces flows", "OTP & form automation", "Form.io integrations"],
+      color: "#3f6650",
+      open: "double",
+    },
+    {
+      title: "Auth & APIs",
+      plate: "AUTH & APIs",
+      subtitle: "Secure, connected systems",
+      points: ["Keycloak single sign-on", "REST & PostgREST APIs", "MongoDB / SQL data"],
+      color: "#a5532a",
+      open: "slide-up",
+    },
+  ],
 
   skills: [
     { title: "Frontend", items: ["React", "JavaScript", "HTML", "CSS", "Mantine UI", "Bootstrap"] },

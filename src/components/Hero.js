@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import Typed from "typed.js";
-import { FiArrowRight, FiMapPin, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { FiArrowRight, FiArrowDown } from "react-icons/fi";
 import { profile } from "../data/profile";
 import Portrait from "./Portrait";
+import RoleCalendar from "./RoleCalendar";
 
 function Hero() {
-  const typedEl = useRef(null);
   const sceneRef = useRef(null);
 
-  // Parallax: as you scroll past the hero, the content drifts up, fades and the photo zooms
+  // Parallax: as you scroll past the hero, the content drifts up, fades and the portrait zooms
   useEffect(() => {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
@@ -27,68 +26,48 @@ function Hero() {
     };
   }, []);
 
-  useEffect(() => {
-    const typed = new Typed(typedEl.current, {
-      strings: profile.roles,
-      typeSpeed: 55,
-      backSpeed: 30,
-      backDelay: 1800,
-      loop: true,
-    });
-    return () => typed.destroy();
-  }, []);
-
   return (
     <section id="home" className="hero">
       <div className="hero__glow" aria-hidden="true" />
       <div className="container hero__inner" ref={sceneRef}>
         <div className="hero__text" data-reveal="left">
-          {profile.openToWork && (
-            <span className="pill">
-              <span className="pill__dot" /> Open to new opportunities
-            </span>
-          )}
+          <span className="hero__kicker">
+            <i /> {profile.experience[0].role} · {profile.experience[0].company}
+          </span>
+
           <h1 className="hero__title">
             Hi, I'm {profile.shortName}.
-            <br />
-            <span className="gradient-text" ref={typedEl} />
+            <span className="hero__title-muted">I am a</span>
           </h1>
+
+          <RoleCalendar roles={profile.roles} />
+
           <p className="hero__lead">{profile.tagline}</p>
 
           <div className="hero__cta">
-            <a href="#contact" className="btn btn--primary">
-              Let's work together <FiArrowRight />
+            <a href="#contact" className="btn btn--primary btn--pill-icon">
+              Start a project
+              <span className="btn__circle">
+                <FiArrowRight />
+              </span>
             </a>
-            <a href="#projects" className="btn btn--ghost">
-              View my work
+            <a href="#projects" className="link-underline">
+              See my work
             </a>
-          </div>
-
-          <div className="hero__meta">
-            <span>
-              <FiMapPin /> {profile.location}
-            </span>
-            <span className="hero__socials">
-              {profile.github && (
-                <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub">
-                  <FiGithub />
-                </a>
-              )}
-              {profile.linkedin && (
-                <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                  <FiLinkedin />
-                </a>
-              )}
-              <a href={`mailto:${profile.email}`} aria-label="Email">
-                <FiMail />
-              </a>
-            </span>
           </div>
         </div>
 
         <div className="hero__photo" data-reveal="zoom" style={{ "--d": "200ms" }}>
           <Portrait />
         </div>
+      </div>
+
+      <div className="container hero__strip" aria-label="Availability">
+        {profile.openToWork && <span>Available for work</span>}
+        <span>{profile.workMode}</span>
+        <a href="#about">
+          Scroll to explore <FiArrowDown />
+        </a>
       </div>
     </section>
   );
