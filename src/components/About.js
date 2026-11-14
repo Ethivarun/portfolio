@@ -1,66 +1,57 @@
 import React from "react";
+import { FiBookOpen, FiAward } from "react-icons/fi";
+import { profile } from "../data/profile";
 
 function About() {
+  const { education } = profile;
+
   return (
-    <section id="about" className="about-section">
-      <h2 className="section-title">About Me</h2>
+    <section id="about" className="section">
+      <div className="container">
+        <header className="section__head" data-reveal>
+          <span className="eyebrow">About</span>
+          <h2 className="section__title">A developer who cares about the details</h2>
+        </header>
 
-      <div className="about-container">
-        {/* Profile */}
-        <div className="about-box">
-          <h3>Profile</h3>
-          <p>
-            I am a <strong>Full Stack Developer</strong> with hands-on experience
-            building modern, scalable web applications. I enjoy solving
-            real-world problems through clean, maintainable code and thoughtful
-            system design.
-          </p>
-          <p>
-            My professional journey includes a <strong>3-month internship</strong>{" "}
-            that transitioned into a <strong>full-time role</strong>, giving me
-            practical exposure to production systems and collaborative
-            development environments.
-          </p>
-        </div>
+        <div className="bento">
+          <div className="card bento__main" data-reveal="left">
+            {profile.about.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
 
-        {/* Experience */}
-        <div className="about-box">
-          <h3>Experience & Focus</h3>
-          <p>
-            I primarily work with <strong>React</strong> on the frontend and
-            backend technologies such as <strong>Node.js</strong>,{" "}
-            <strong>REST APIs</strong>, and authentication systems like{" "}
-            <strong>Keycloak</strong>.
-          </p>
-          <p>
-            I focus on building applications that are{" "}
-            <em>reliable, user-friendly, and easy to maintain</em>.
-          </p>
-        </div>
+          <div className="bento__stats">
+            {profile.stats.map((s, i) => (
+              <div key={s.label} className="card stat" data-reveal="right" style={{ "--d": `${i * 110}ms` }}>
+                <span className="stat__value gradient-text">{s.value}</span>
+                <span className="stat__label">{s.label}</span>
+              </div>
+            ))}
+          </div>
 
-        {/* Learning */}
-        <div className="about-box">
-          <h3>Learning & Growth</h3>
-          <ul>
-            <li>Built multiple full-stack projects using React and backend APIs.</li>
-            <li>Developed custom Form.io components and workflow automations.</li>
-            <li>Maintained technical documentation using Docusaurus.</li>
-            <li>Continuously improving authentication and backend architecture skills.</li>
-          </ul>
-        </div>
+          <div className="card info-card" data-reveal="blur">
+            <span className="info-card__icon"><FiBookOpen /></span>
+            <div>
+              <h3>{education.degree}</h3>
+              <p className="muted">{education.school}</p>
+              <p className="info-card__meta">
+                <span>{education.period}</span>
+                {education.cgpa && <span>CGPA {education.cgpa}</span>}
+              </p>
+            </div>
+          </div>
 
-        {/* Education */}
-        <div className="about-box">
-          <h3>Education</h3>
-          <ul>
-            <li>
-              <strong>
-                Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology
-              </strong>
-              <p>B.Tech — Electronics & Communication Engineering</p>
-              <p><strong>CGPA:</strong> 9.0</p>
-            </li>
-          </ul>
+          <div className="card info-card" data-reveal="blur" style={{ "--d": "120ms" }}>
+            <span className="info-card__icon"><FiAward /></span>
+            <div>
+              <h3>Certifications</h3>
+              <ul className="plain-list">
+                {profile.certifications.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>

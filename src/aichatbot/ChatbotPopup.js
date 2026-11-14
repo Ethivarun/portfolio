@@ -1,226 +1,153 @@
-import React, { useState } from "react";
-import { FaComments, FaTimes } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+import { FiMessageCircle, FiX, FiSend } from "react-icons/fi";
+import { profile } from "../data/profile";
 import "./ChatbotPopup.css";
 
+const SUGGESTIONS = ["Skills", "Experience", "Projects", "Education", "Contact"];
+
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+// whole-word match, so "hi" doesn't match "hire" or "this"
+const has = (q, words) => words.some((w) => new RegExp(`\\b${w}`, "i").test(q));
+
+function getBotReply(question) {
+  const q = question.toLowerCase();
+  const p = profile;
+
+  if (has(q, ["hire", "should we"]))
+    return `${p.shortName} would be a great fit if you need a motivated developer who blends frontend engineering with APIs, auth and workflow automation.`;
+  if (has(q, ["skill", "tech", "stack", "language"]))
+    return `${p.shortName}'s stack: ${p.skills.map((s) => `${s.title} — ${s.items.join(", ")}`).join(". ")}.`;
+  if (has(q, ["experience", "work", "job", "company"]))
+    return p.experience
+      .map((e) => `${e.role} at ${e.company} (${e.period}): ${e.points.join(" ")}`)
+      .join("\n\n");
+  if (has(q, ["education", "college", "degree", "cgpa", "study"]))
+    return `${p.education.degree}, ${p.education.school} (${p.education.period})${p.education.cgpa ? `, CGPA ${p.education.cgpa}` : ""}.`;
+  if (has(q, ["project", "built", "portfolio"]))
+    return p.projects.map((x) => `• ${x.title} — ${x.description}`).join("\n");
+  if (has(q, ["certif"])) return `Certifications: ${p.certifications.join(", ")}.`;
+  if (has(q, ["contact", "email", "phone", "reach", "call"]))
+    return `You can reach ${p.shortName} at ${p.email} or ${p.phone}.`;
+  if (has(q, ["about", "summary", "profile", "yourself"])) return p.about.join(" ");
+  if (has(q, ["strength"]))
+    return `${p.shortName}'s strengths: quick learning, problem-solving, clean code, and comfort across frontend, backend and low-code platforms.`;
+  if (has(q, ["weakness"]))
+    return `${p.shortName} is actively levelling up in performance optimisation and advanced system design.`;
+  if (has(q, ["goal", "future"]))
+    return `${p.shortName} aims to grow as a full-stack engineer, building scalable applications and AI-assisted automation.`;
+  if (has(q, ["soft skill", "communication", "team"]))
+    return `${p.shortName} is a strong team player who communicates clearly and adapts quickly in fast-paced environments.`;
+  if (has(q, ["available", "notice", "join"]))
+    return `${p.shortName} is open to new opportunities and happy to discuss availability.`;
+  if (has(q, ["location", "relocat", "remote", "where"]))
+    return `${p.shortName} is based in ${p.location} and open to relocation or remote roles.`;
+  if (has(q, ["who are you", "your name"]))
+    return `I'm ${p.shortName}'s resume assistant — ask me about skills, experience, projects or how to get in touch.`;
+  if (has(q, ["how are you"])) return pick(["Doing great — ready to help!", "All good! What would you like to know?"]);
+  if (has(q, ["thank"])) return pick(["You're welcome!", "Happy to help!", "Anytime!"]);
+  if (has(q, ["joke"])) return "Why do developers love JavaScript? Because it keeps them event-ful.";
+  if (/^\s*(hi+|hello|hey|yo)\b/i.test(q))
+    return pick([
+      "Hi there! What would you like to know about Varun?",
+      "Hello! Ask me about Varun's skills, projects or experience.",
+    ]);
+
+  return pick([
+    "I don't have that exact detail, but try asking about skills, experience, projects, education or contact.",
+    `Good question! For specifics, you can email ${p.shortName} directly at ${p.email}.`,
+  ]);
+}
+
 function ChatbotPopup() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
     {
       sender: "bot",
-      text: "Hi! I’m Varun’s Resume Bot. Ask me about his skills, experience, education, or projects!",
+      text: `Hi! I'm ${profile.shortName}'s resume assistant. Ask me about his skills, experience, education or projects.`,
     },
   ]);
-  const [input, setInput] = useState("");
+  const bodyRef = useRef(null);
+  const inputRef = useRef(null);
 
-  // ---------------- UPDATED RESUME DATA ----------------
-  const resumeData = {
-    name: "Madaka Ethivarun",
-    title: "Associate Software Trainee (Frontend & Low-Code Developer)",
-    about:
-      "I am a B.Tech ECE graduate skilled in AI-based IoT systems, low-code development, automation workflows, and frontend engineering. I work with JavaScript, Form.io, Python, SQL, Azure, and workflow automation.",
-    skills: [
-      "JavaScript",
-      "Python",
-      "SQL",
-      "Azure",
-      "Form.io",
-      "HTML",
-      "CSS",
-      "JSON",
-      "Low-Code Development",
-      "Workflow Automation",
-      "AI Chatbot Analysis"
-    ],
-    experience:
-      "Currently working as an Associate Software Trainee at Stride Future Technology. I develop frontend components using JavaScript, Form.io, HTML/CSS, build low-code applications, automate workflows, improve AI chatbot performance, and perform feature testing.",
-    education:
-      "Bachelor of Technology in Electronics and Communication Engineering (2020–2024) with CGPA 8.2 from Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology.",
-    projects:
-      "River Cleaning Boat Prototype — a Bluetooth-controlled, treadmill-based waste collecting boat designed to reduce plastic pollution in lakes and rivers.",
-    certifications:
-      "Atlassian Jira Fundamentals, Python Programming (Offline Course).",
-    contact: "You can reach me at: varun.madaka@gmail.com or phone: +91 7330920535.",
+  useEffect(() => {
+    bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, typing]);
+
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+
+  const send = (text) => {
+    const msg = text.trim();
+    if (!msg || typing) return;
+    setMessages((m) => [...m, { sender: "user", text: msg }]);
+    setInput("");
+    setTyping(true);
+    setTimeout(() => {
+      setMessages((m) => [...m, { sender: "bot", text: getBotReply(msg) }]);
+      setTyping(false);
+    }, 500 + Math.random() * 400);
   };
-
-  // ---------------- BOT REPLY LOGIC ----------------
- const getBotReply = (question) => {
-  const q = question.toLowerCase();
-
-  // Helper for random replies
-  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-  // ----- GREETINGS -----
-  if (["hi", "hello", "hey", "hii", "yo"].some((g) => q.includes(g))) {
-    return pick([
-      "Hi there! 👋 What would you like to know about Varun?",
-      "Hello! 😊 You can ask me about Varun’s skills, experience, or projects.",
-      "Hey! 😄 How can I help you explore Varun’s resume?",
-    ]);
-  }
-
-  // ----- SMALL TALK -----
-  if (q.includes("how are you")) {
-    return pick([
-      "I'm doing great! 😄 Ready to tell you about Varun.",
-      "Feeling awesome and ready to chat! 🚀",
-      "I'm good! Thanks for asking. Want to know about Varun’s skills?",
-    ]);
-  }
-
-  if (q.includes("what's up") || q.includes("whats up")) {
-    return "Just here helping you explore Varun’s profile! 😊";
-  }
-
-  // ----- NAME -----
-  if (q.includes("your name") || q.includes("who are you")) {
-    return pick([
-      `I'm Varun’s Resume Bot 🤖.`,
-      `I'm an AI bot created to share info about ${resumeData.name}.`,
-    ]);
-  }
-
-  // ----- ABOUT -----
-  if (q.includes("about") || q.includes("summary")) {
-    return resumeData.about;
-  }
-
-  // ----- SKILLS -----
-  if (q.includes("skill") || q.includes("tech") || q.includes("technology")) {
-    return pick([
-      `Here are Varun’s skills: ${resumeData.skills.join(", ")}.`,
-      `Varun works with technologies like ${resumeData.skills.join(", ")}.`,
-      `Main skills: ${resumeData.skills.join(", ")}.`,
-    ]);
-  }
-
-  // ----- EXPERIENCE -----
-  if (q.includes("experience") || q.includes("work")) {
-    return resumeData.experience;
-  }
-
-  // ----- EDUCATION -----
-  if (q.includes("education") || q.includes("study") || q.includes("college")) {
-    return resumeData.education;
-  }
-
-  // ----- PROJECTS -----
-  if (q.includes("project")) {
-    return resumeData.projects;
-  }
-
-  // ----- CERTIFICATIONS -----
-  if (q.includes("certificate") || q.includes("certification")) {
-    return resumeData.certifications;
-  }
-
-  // ----- CONTACT -----
-  if (q.includes("email") || q.includes("contact") || q.includes("phone")) {
-    return resumeData.contact;
-  }
-
-  // ------ NATURAL FALLBACK ------
-  return pick([
-    "Hmm, I'm not sure about that 🤔. Try asking about Varun’s skills or experience!",
-    "I didn’t understand that, but I can tell you about Varun’s projects, skills, or education 😊",
-    "Good question! But I can answer best if you ask about Varun's resume details 📄",
-  ]);
-};
-
-
-  // ---------------- SEND MESSAGE ----------------
-  const handleSend = () => {
-  if (!input.trim()) return;
-
-  const userMsg = { sender: "user", text: input };
-  setMessages((m) => [...m, userMsg]);
-
-  const reply = getBotReply(input);
-
-  // typing delay
-  setTimeout(() => {
-  const botMessage = { sender: "bot", text: reply };
-  setMessages((m) => [...m, botMessage]);
-  // Make bot speak
-  // speak(reply);
-  }, 600 + Math.random() * 400);
-
-
-  setInput("");
-};
-
-const startVoiceInput = () => {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Voice recognition not supported in your browser.");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.continuous = false;
-  recognition.interimResults = false;
-
-  setIsRecording(true);
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const speechText = event.results[0][0].transcript;
-    setInput(speechText);
-    setIsRecording(false);
-  };
-
-  recognition.onerror = () => {
-    setIsRecording(false);
-  };
-};
-
-// const speak = (text) => {
-//   const utter = new SpeechSynthesisUtterance(text);
-//   utter.rate = 1;
-//   utter.pitch = 1;
-//   window.speechSynthesis.speak(utter);
-// };
-
 
   return (
     <>
-      {/* Floating Chat Icon */}
-      <div
-        className={`chat-icon ${isOpen ? "open" : ""}`}
-        onClick={() => setIsOpen(!isOpen)}
+      <button
+        className={`chat-fab ${open ? "is-open" : ""}`}
+        aria-label={open ? "Close chat" : "Open chat"}
+        onClick={() => setOpen((o) => !o)}
       >
-        {isOpen ? <FaTimes size={22} /> : <FaComments size={26} />}
-      </div>
+        {open ? <FiX /> : <FiMessageCircle />}
+      </button>
 
-      {/* Popup Window */}
-      {isOpen && (
-        <div className="chat-popup">
-          <div className="chat-header">
-            <h4>💬 Varun’s Resume Bot</h4>
+      {open && (
+        <div className="chat" role="dialog" aria-label="Resume assistant">
+          <div className="chat__head">
+            <span className="chat__avatar">{profile.shortName[0]}</span>
+            <div>
+              <strong>{profile.shortName}'s Assistant</strong>
+              <span className="chat__status">Online · replies instantly</span>
+            </div>
           </div>
 
-          <div className="chat-body">
+          <div className="chat__body" ref={bodyRef}>
             {messages.map((m, i) => (
-              <div key={i} className={`msg ${m.sender}`}>
+              <div key={i} className={`chat__msg chat__msg--${m.sender}`}>
                 {m.text}
               </div>
             ))}
+            {typing && (
+              <div className="chat__msg chat__msg--bot chat__typing" aria-label="Typing">
+                <span /><span /><span />
+              </div>
+            )}
           </div>
 
-          <div className="chat-input">
-          <button className="mic-btn" onClick={startVoiceInput}>
-            {isRecording ? "🎙️ Listening..." : "🎤"}
-          </button>
+          <div className="chat__suggestions">
+            {SUGGESTIONS.map((s) => (
+              <button key={s} onClick={() => send(s)}>{s}</button>
+            ))}
+          </div>
+
+          <form
+            className="chat__input"
+            onSubmit={(e) => {
+              e.preventDefault();
+              send(input);
+            }}
+          >
             <input
+              ref={inputRef}
               type="text"
-              placeholder="Ask about Varun..."
+              placeholder={`Ask about ${profile.shortName}…`}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
             />
-            <button onClick={handleSend}>Send</button>
-          </div>
+            <button type="submit" aria-label="Send" disabled={!input.trim()}>
+              <FiSend />
+            </button>
+          </form>
         </div>
       )}
     </>

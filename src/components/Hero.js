@@ -1,120 +1,97 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Typed from "typed.js";
-import { Link, scroller } from "react-scroll";
-import { FaBars, FaTimes } from "react-icons/fa"; // <-- for hamburger and close icon
+import { FiArrowRight, FiMapPin, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { profile } from "../data/profile";
+import Portrait from "./Portrait";
 
-function App() {
-  const typedElement = useRef(null);
-  const [menuOpen, setMenuOpen] = useState(false); // state to toggle mobile menu
-  const [scrolled, setScrolled] = useState(false);
+function Hero() {
+  const typedEl = useRef(null);
+  const sceneRef = useRef(null);
+
+  // Parallax: as you scroll past the hero, the content drifts up, fades and the photo zooms
+  useEffect(() => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const p = Math.min(window.scrollY / window.innerHeight, 1);
+      sceneRef.current?.style.setProperty("--p", p.toFixed(3));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   useEffect(() => {
-  const handleScroll = () => {
-    if (window.scrollY > 100) setScrolled(true);
-    else setScrolled(false);
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-  useEffect(() => {
-    const typed = new Typed(typedElement.current, {
-      strings: ["Full Stack Developer", "API Developer", "Software Engineer"],
-      typeSpeed: 80,
-      backSpeed: 50,
+    const typed = new Typed(typedEl.current, {
+      strings: profile.roles,
+      typeSpeed: 55,
+      backSpeed: 30,
+      backDelay: 1800,
       loop: true,
     });
     return () => typed.destroy();
   }, []);
 
-  // Function to close menu when link is clicked
-  const handleLinkClick = (section) => {
-    scroller.scrollTo(section, { smooth: true, duration: 600 });
-    setMenuOpen(false); // close dropdown
-  };
-
   return (
-    <div className="App">
-      {/* Header */}
-      <header className={`header ${scrolled ? "header-scrolled" : ""}`}>
-        <div className="logo">Varun</div>
-
-        {/* Desktop Menu */}
-        <nav className="nav-links">
-          <Link to="home" smooth duration={600} spy activeClass="active-link">Home</Link>
-          <Link to="about" smooth duration={600} spy activeClass="active-link">About</Link>
-          <Link to="projects" smooth duration={600} spy activeClass="active-link">Projects</Link>
-          <Link to="contact" smooth duration={600} spy activeClass="active-link">Contact</Link>
-        </nav>
-
-        {/* Hamburger for Mobile */}
-        <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <FaTimes size={26} /> : <FaBars size={26} />}
-        </div>
-
-        {/* Resume button (visible only on desktop) */}
-        <button
-          className="resume-btn"
-          onClick={() => {
-            const link = document.createElement("a");
-            link.href = "/resume1.pdf";
-            link.download = "Varun_Resume.pdf";
-            link.click();
-          }}
-        >
-          Download Resume ⬇
-        </button>
-
-        {/* Mobile Dropdown */}
-        {menuOpen && (
-          <div className="mobile-menu">
-            <Link onClick={() => handleLinkClick("home")}>Home</Link>
-            <Link onClick={() => handleLinkClick("about")}>About</Link>
-            <Link onClick={() => handleLinkClick("projects")}>Projects</Link>
-            <Link onClick={() => handleLinkClick("contact")}>Contact</Link>
-            <button
-              className="mobile-resume-btn"
-              onClick={() => window.open("/resume1.pdf", "_blank")}
-            >
-              View Resume
-            </button>
-          </div>
-        )}
-      </header>
-
-      {/* Hero Section */}
-      <section id="home" className="hero">
-        <div className="hero-text">
-          <span className="name-tag">Madaka Ethivarun</span>
-          <h1>
-            I'm <span ref={typedElement}></span>
+    <section id="home" className="hero">
+      <div className="hero__glow" aria-hidden="true" />
+      <div className="container hero__inner" ref={sceneRef}>
+        <div className="hero__text" data-reveal="left">
+          {profile.openToWork && (
+            <span className="pill">
+              <span className="pill__dot" /> Open to new opportunities
+            </span>
+          )}
+          <h1 className="hero__title">
+            Hi, I'm {profile.shortName}.
+            <br />
+            <span className="gradient-text" ref={typedEl} />
           </h1>
-          <p>
-            I’m a Passionate Full Stack Developer with expertise in modern web
-            technologies.I create beautiful, functional, and scalable digital solutions that deliver real value.
-          </p>
-          <div className="hero-buttons">
-            <button
-              className="hire-btn"
-              onClick={() => scroller.scrollTo("contact", { smooth: true, duration: 600 })}
-            >
-              Hire Me
-            </button>
-            <button
-              className="view-btn"
-              onClick={() => window.open("/resume1.pdf", "_blank")}
-            >
-              View Resume
-            </button>
+          <p className="hero__lead">{profile.tagline}</p>
+
+          <div className="hero__cta">
+            <a href="#contact" className="btn btn--primary">
+              Let's work together <FiArrowRight />
+            </a>
+            <a href="#projects" className="btn btn--ghost">
+              View my work
+            </a>
+          </div>
+
+          <div className="hero__meta">
+            <span>
+              <FiMapPin /> {profile.location}
+            </span>
+            <span className="hero__socials">
+              {profile.github && (
+                <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+                  <FiGithub />
+                </a>
+              )}
+              {profile.linkedin && (
+                <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                  <FiLinkedin />
+                </a>
+              )}
+              <a href={`mailto:${profile.email}`} aria-label="Email">
+                <FiMail />
+              </a>
+            </span>
           </div>
         </div>
-        <div className="hero-photo">
-          <img src="testing.jpg" alt="varun" />
+
+        <div className="hero__photo" data-reveal="zoom" style={{ "--d": "200ms" }}>
+          <Portrait />
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
 
-export default App;
+export default Hero;
