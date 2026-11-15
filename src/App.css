@@ -318,6 +318,64 @@ main,
   font: 600 17px var(--font-display);
 }
 
+/* Premium wordmark: elegant italic serif + glowing accent dot */
+.nav .nav__logo {
+  position: relative;
+  align-items: baseline;
+  gap: 3px;
+  font: italic 400 32px/1 "Instrument Serif", Georgia, serif;
+  letter-spacing: 0.01em;
+}
+.nav__logo-text {
+  background: linear-gradient(
+    100deg,
+    var(--text) 0%,
+    var(--text) 40%,
+    var(--accent) 50%,
+    var(--text) 60%,
+    var(--text) 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background-position 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav__logo:hover .nav__logo-text { background-position: 0 0; }
+.nav__logo-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 10px 1px var(--accent);
+  animation: logo-dot 2.8s ease-in-out infinite;
+}
+/* hairline that draws in under the name on hover */
+.nav .nav__logo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 10px;
+  bottom: -5px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav .nav__logo:hover::after { transform: scaleX(1); }
+@keyframes logo-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.8); }
+}
+@media (max-width: 860px) {
+  .nav .nav__logo { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav__logo-dot { animation: none; }
+}
+
 .nav__logo-mark {
   display: grid;
   place-items: center;
@@ -1984,7 +2042,7 @@ html.is-intro .hero__inner > [data-inview="in"],
 
 /* ---------- Lamp pull-cord ---------- */
 .lamp {
-  --len: 150px;
+  --len: 230px;
   position: fixed;
   top: 0;
   right: max(18px, calc((100vw - var(--container)) / 2 - 56px));
@@ -1993,13 +2051,24 @@ html.is-intro .hero__inner > [data-inview="in"],
   flex-direction: column;
   align-items: center;
   transform-origin: 50% 0;
-  animation: lamp-sway 6s ease-in-out infinite;
+  animation: lamp-sway 3.6s ease-in-out infinite;
   pointer-events: none;
 }
 .lamp.is-dragging { animation-play-state: paused; }
+/* gentle pendulum swing */
 @keyframes lamp-sway {
-  0%, 100% { transform: rotate(1.4deg); }
-  50% { transform: rotate(-1.4deg); }
+  0%, 100% { transform: rotate(5deg); }
+  50% { transform: rotate(-5deg); }
+}
+/* bigger, damped swing right after the cord is pulled */
+.lamp.is-swinging { animation: lamp-kick 1.8s cubic-bezier(0.36, 0, 0.3, 1) both; }
+@keyframes lamp-kick {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(16deg); }
+  35% { transform: rotate(-12deg); }
+  55% { transform: rotate(8deg); }
+  75% { transform: rotate(-4deg); }
+  100% { transform: rotate(5deg); }
 }
 
 .lamp__cord {
@@ -2085,13 +2154,13 @@ html.is-intro .hero__inner > [data-inview="in"],
 ::view-transition-new(root) { z-index: 9999; }
 
 @media (min-width: 861px) and (max-width: 1240px) {
-  .lamp { --len: 26px; right: 150px; }
+  .lamp { --len: 120px; right: 150px; }
   .lamp__hint { top: calc(var(--len) + var(--pull, 0px) + 2px); }
 }
 
 @media (max-width: 860px) {
   /* hangs inside the nav bar, between the logo and the menu button */
-  .lamp { --len: 26px; right: 82px; }
+  .lamp { --len: 70px; right: 82px; }
   .lamp__knob { width: 15px; height: 24px; }
   .lamp__hint { top: calc(var(--len) + var(--pull, 0px) + 2px); }
 }

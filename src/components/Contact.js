@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiMail, FiPhone, FiGithub, FiLinkedin, FiSend, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { profile } from "../data/profile";
 
-const WEBHOOK_URL = "https://cloud.activepieces.com/api/v1/webhooks/bCNwoq3UZ3ZLS3Sk0ZGME";
+const WEBHOOK_URL = "https://cloud.activepieces.com/api/v1/webhooks/ZY4GY4hVZoJA5yeOoPRf5";
 const EMPTY = { name: "", email: "", message: "" };
 
 function Contact() {

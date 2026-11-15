@@ -20,9 +20,9 @@ export const profile = {
   linkedin: "",
 
   resume: "/resume1.pdf",
-  photo: "/testing.jpg",
-  // true when "photo" is a transparent-background PNG (cut-out) → head pops out of the circle
-  photoCutout: false,
+  photo: "/avatar.png",
+  photoCutout: true,   // true only if you used the transparent-background version
+
 
   about: [
     "I'm a developer who enjoys turning real-world problems into simple, maintainable software. I work across the stack — React on the frontend, Node.js and REST APIs on the backend, and platforms like Form.io, Keycloak and Activepieces to ship faster. I've built complete business applications — e-commerce, LMS, CRM and HRMS — end to end.",
@@ -37,7 +37,7 @@ export const profile = {
 
   experience: [
     {
-      role: "Associate Software Trainee",
+      role: "Associate Software Engineer",
       company: "Stride Future Technology",
       period: "Full-time · Present",
       points: [
@@ -85,7 +85,7 @@ export const profile = {
     {
       year: "2025",
       period: "2025",
-      title: "Associate Software Trainee",
+      title: "Associate Software Engineer",
       org: "Stride Future Technology",
       points: [
         "Implemented Keycloak SSO across multiple micro-frontends.",
@@ -164,20 +164,22 @@ export const profile = {
 
   skills: [
     { title: "Frontend", items: ["React", "JavaScript", "HTML", "CSS", "Mantine UI", "Bootstrap"] },
-    { title: "Backend", items: ["Node.js", "REST APIs", "PostgREST", "RESTHeart", "MongoDB", "SQL", "Python"] },
-    { title: "Platforms", items: ["Form.io", "Keycloak", "Activepieces", "Azure", "Docusaurus"] },
-    { title: "Tools", items: ["Git & GitHub", "VS Code", "Jira", "Postman"] },
+    { title: "Backend & Data", items: ["Node.js", "REST APIs", "PostgREST", "RESTHeart", "MongoDB", "SQL", "Python"] },
+    { title: "Platforms & Auth", items: ["Form.io", "Keycloak SSO", "Activepieces", "Docusaurus"] },
+    { title: "Cloud & DevOps", items: ["Docker", "AWS S3", "Azure"] },
+    { title: "Integrations", items: ["Razorpay payments", "VdoCipher video", "Custom Form.io widgets"] },
+    { title: "Testing & Tools", items: ["Jest", "Git & GitHub", "Postman", "Jira", "VS Code"] },
   ],
 
   // featured: true → shown as a large card at the top of the Projects section
   // category: used by the filter tabs (Full Stack | Frontend | Automation | Other)
   projects: [
     {
-      title: "E-Commerce Platform",
+      title: "Commerce & Inventory Hub",
       description:
-        "Full-stack store with product catalogue, search & filters, cart, checkout, order tracking and an admin panel for inventory and orders.",
-      tech: ["React", "Node.js", "MongoDB", "REST APIs", "Keycloak"],
-      highlights: ["Cart & checkout flow", "Admin inventory dashboard", "Role-based auth"],
+        "Operations platform for a manufacturer-retailer: purchasing, production, transfers, stock counts, a POS counter and a live dashboard.",
+      tech: ["React", "Form.io", "Mantine UI", "Keycloak", "Jest", "Docker"],
+      highlights: ["Batch-level stock ledger", "Point-of-sale counter", "Production & job work"],
       tag: "E-Commerce",
       category: "Full Stack",
       featured: true,
@@ -186,20 +188,20 @@ export const profile = {
     {
       title: "Learning Management System",
       description:
-        "LMS for courses, lessons and quizzes with student progress tracking, instructor dashboards and certificate generation.",
-      tech: ["React", "Node.js", "MongoDB", "Form.io"],
-      highlights: ["Course & quiz builder", "Progress tracking", "Instructor dashboard"],
+        "Course builder, learner player, proctored exams and progress dashboards, all built as configurable widgets on a low-code form platform.",
+      tech: ["React", "Form.io", "Mantine UI", "Keycloak", "AWS S3", "VdoCipher"],
+      highlights: ["Proctored online exams", "Drag-drop curriculum builder", "Learner growth dashboard"],
       tag: "LMS",
       category: "Full Stack",
       featured: true,
       link: "",
     },
     {
-      title: "CRM System",
+      title: "Candidate Lifecycle CRM",
       description:
-        "Lead and customer management with a sales pipeline, follow-up reminders and automated email/OTP workflows.",
-      tech: ["React", "Node.js", "PostgREST", "Activepieces"],
-      highlights: ["Kanban sales pipeline", "Automated follow-ups", "Activity timeline"],
+        "Tracks candidates from lead to placement: stage-gated journey, interview scheduling, offers, payments and role-based staff, candidate and panel views.",
+      tech: ["React", "Form.io", "Keycloak", "Razorpay", "Mantine UI", "Docker"],
+      highlights: ["Stage-gated candidate journey", "Interview clash detection", "Role access matrix"],
       tag: "CRM",
       category: "Full Stack",
       featured: true,

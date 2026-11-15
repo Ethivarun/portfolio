@@ -1,8 +1,15 @@
 import React from "react";
-import { FiMonitor, FiServer, FiLayers, FiTool } from "react-icons/fi";
+import { FiMonitor, FiServer, FiLayers, FiTool, FiCloud, FiLink } from "react-icons/fi";
 import { profile } from "../data/profile";
 
-const ICONS = { Frontend: FiMonitor, Backend: FiServer, Platforms: FiLayers, Tools: FiTool };
+const ICONS = {
+  Frontend: FiMonitor,
+  "Backend & Data": FiServer,
+  "Platforms & Auth": FiLayers,
+  "Cloud & DevOps": FiCloud,
+  Integrations: FiLink,
+  "Testing & Tools": FiTool,
+};
 
 function Skills() {
   return (

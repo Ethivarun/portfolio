@@ -65,8 +65,8 @@ function Navbar() {
     <header className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
       <div className="nav__inner container">
         <a href="#home" className="nav__logo" onClick={() => setOpen(false)}>
-          <span className="nav__logo-mark">{profile.shortName[0]}</span>
-          {profile.shortName}
+          <span className="nav__logo-text">{profile.shortName}</span>
+          <span className="nav__logo-dot" aria-hidden="true" />
         </a>
 
         <nav className={`nav__links ${open ? "is-open" : ""}`} aria-label="Primary">

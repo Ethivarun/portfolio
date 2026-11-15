@@ -21,6 +21,9 @@ function LampCord() {
       return false;
     }
   });
+  const [swinging, setSwinging] = useState(false);
+  const swingTimer = useRef(null);
+  useEffect(() => () => clearTimeout(swingTimer.current), []);
   const knobRef = useRef(null);
   const drag = useRef({ startY: 0, moved: 0 });
 
@@ -33,6 +36,10 @@ function LampCord() {
   const toggle = () => {
     const next = theme === "dark" ? "light" : "dark";
     setHint(false);
+    setSwinging(false);
+    requestAnimationFrame(() => setSwinging(true));
+    clearTimeout(swingTimer.current);
+    swingTimer.current = setTimeout(() => setSwinging(false), 1800);
     try {
       localStorage.setItem("lampUsed", "1");
     } catch (e) {}
@@ -96,7 +103,7 @@ function LampCord() {
 
   return (
     <div
-      className={`lamp ${dragging ? "is-dragging" : ""} ${theme === "light" ? "is-on" : ""}`}
+      className={`lamp ${dragging ? "is-dragging" : ""} ${swinging ? "is-swinging" : ""} ${theme === "light" ? "is-on" : ""}`}
       style={{ "--pull": `${pull}px` }}
     >
       <span className="lamp__cord" aria-hidden="true" />
